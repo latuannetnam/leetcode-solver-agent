@@ -5,7 +5,7 @@ analyze_problem_task:
 
 create_algorithm_task:
   description: |
-    Create an efficient algorithm to solve the LeetCode problem.
+    Create an efficient algorithm to solve the LeetCode problem:\n\n{leetcode_problem}.
     - The algorithm should be well-defined and efficient.
     - The algorithm should be easy to understand and implement.
     - The algorithm should be optimized for performance and memory.

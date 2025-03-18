@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import sys
+import os
 import warnings
-import argparse
+
 
 from datetime import datetime
 from dotenv import load_dotenv
@@ -21,11 +22,11 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # interpolate any tasks and agents information
 
 def run():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--file", type=str, required=True, help="Path to the LeetCode problem file")
-    args = parser.parse_args()
+    leetcode_file = os.getenv("LEETCODE_FILE", None)
+    if leetcode_file is None:
+        leetcode_file = input("Enter the file name: ")
     
-    with open(args.file, "r") as f:
+    with open(leetcode_file, "r") as f:
         leetcode_problem = f.read()
     """
     Run the crew.
@@ -35,7 +36,9 @@ def run():
     }
     
     try:
-        LeetcodeSolver().crew().kickoff(inputs=inputs)
+        leetcode_crew = LeetcodeSolver().crew()
+        result = leetcode_crew.kickoff(inputs=inputs)
+        print(f"Final result:\n {result}")
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
@@ -76,3 +79,7 @@ def test():
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
+
+
+if __name__ == "__main__":
+    run()

@@ -1,6 +1,8 @@
 from loguru import logger
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import CodeInterpreterTool
+
 import os
 from dotenv import load_dotenv
 load_dotenv(override=True)
@@ -24,6 +26,8 @@ class LeetcodeSolver():
         self.llm = self.load_llm_model()
         self.MAX_ITER = int(os.getenv('MAX_ITER', 5))
         self.VERBOSE = os.getenv('VERBOSE', 'false').lower() == 'true'
+        # Initialize the tool
+        self.code_interpreter = CodeInterpreterTool()
 
     def load_llm_model(self):
         LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
@@ -35,6 +39,8 @@ class LeetcodeSolver():
         elif LLM_PROVIDER == "ollama":
             model = f"ollama/{MODEL}"
             CONTEXT_WINDOW_SIZE = int(os.getenv("CONTEXT_WINDOW_SIZE", 8192))
+        elif LLM_PROVIDER == "groq":
+            model = f"groq/{MODEL}"
 
         elif LLM_PROVIDER == "openai":
             model = f"openai/{MODEL}"
@@ -78,11 +84,12 @@ class LeetcodeSolver():
         )
 
     @agent
-    def sofware_engineer(self) -> Agent:
+    def software_engineer(self) -> Agent:
         return Agent(
             config=self.agents_config['software_engineer'],
             llm=self.llm,
             max_iter=self.MAX_ITER,
+            tools=[self.code_interpreter],
             verbose=self.VERBOSE
         )
 
@@ -92,6 +99,7 @@ class LeetcodeSolver():
             config=self.agents_config['tester'],
             llm=self.llm,
             max_iter=self.MAX_ITER,
+            tools=[self.code_interpreter],
             verbose=self.VERBOSE
         )
 
@@ -165,7 +173,8 @@ class LeetcodeSolver():
             agents=self.agents,  # Automatically created by the @agent decorator
             tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.hierarchical,
-            manager_agent=self.crew_manager(),
+            # manager_agent=self.crew_manager(),
+            manager_llm=self.llm,
+            # allow_code_execution=True,  # This automatically adds the CodeInterpreterTool
             verbose=self.VERBOSE,
-
         )
