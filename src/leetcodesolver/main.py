@@ -1,10 +1,17 @@
 #!/usr/bin/env python
 import sys
 import warnings
+import argparse
 
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv(override=True)
 
 from leetcodesolver.crew import LeetcodeSolver
+import leetcodesolver.config as config
+
+# Init tracing to Phoenix
+config.init_trace()
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -14,12 +21,17 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # interpolate any tasks and agents information
 
 def run():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--file", type=str, required=True, help="Path to the LeetCode problem file")
+    args = parser.parse_args()
+    
+    with open(args.file, "r") as f:
+        leetcode_problem = f.read()
     """
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'leetcode_problem': leetcode_problem
     }
     
     try:
