@@ -22,33 +22,20 @@ class LeetcodeSolver():
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
-    def __init__(self):
+    def __init__(self, result_file: str = None):
         self.llm = self.load_llm_model()
         self.MAX_ITER = int(os.getenv('MAX_ITER', 5))
         self.VERBOSE = os.getenv('VERBOSE', 'false').lower() == 'true'
         # Initialize the tool
         self.code_interpreter = CodeInterpreterTool()
+        self.result_file = result_file
 
     def load_llm_model(self):
         LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
         MODEL = os.getenv("MODEL", "gpt-4o-mini")
         MODEL_TEMPERATURE = float(os.getenv("MODEL_TEMPERATURE", 0.0))
         CONTEXT_WINDOW_SIZE = 0
-        if LLM_PROVIDER == "google":
-            model = f"gemini/{MODEL}"
-        elif LLM_PROVIDER == "ollama":
-            model = f"ollama/{MODEL}"
-            CONTEXT_WINDOW_SIZE = int(os.getenv("CONTEXT_WINDOW_SIZE", 8192))
-        elif LLM_PROVIDER == "groq":
-            model = f"groq/{MODEL}"
-
-        elif LLM_PROVIDER == "openai":
-            model = f"openai/{MODEL}"
-
-        else:
-            raise ValueError(
-                f"Unsupported LLM provider: {LLM_PROVIDER}")
-        
+        model = f"{LLM_PROVIDER}/{MODEL}"
         logger.info(f"Loading LLM model: {model}")
         if CONTEXT_WINDOW_SIZE>0:
             llm = LLM(
@@ -161,6 +148,7 @@ class LeetcodeSolver():
     def finalize_code_task(self) -> Task:
         return Task(
             config=self.tasks_config['finalize_code_task'],
+            output_file=self.result_file
         )
 
     @crew

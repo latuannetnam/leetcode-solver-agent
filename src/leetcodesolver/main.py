@@ -26,6 +26,11 @@ def run():
     if leetcode_file is None:
         leetcode_file = input("Enter the file name: ")
     
+    file_name = os.path.splitext(os.path.basename(leetcode_file))[0]
+    
+    result_file = f"result/{file_name}.py"
+    
+    print(f"Reading problem from Leetcode file: {leetcode_file}")
     with open(leetcode_file, "r") as f:
         leetcode_problem = f.read()
     """
@@ -36,7 +41,7 @@ def run():
     }
     
     try:
-        leetcode_crew = LeetcodeSolver().crew()
+        leetcode_crew = LeetcodeSolver(result_file).crew()
         result = leetcode_crew.kickoff(inputs=inputs)
         print(f"Final result:\n {result}")
     except Exception as e:

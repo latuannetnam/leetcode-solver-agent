@@ -52,6 +52,6 @@ suggest_improvements_task:
 
 finalize_code_task:
   description: "Finalize the code based on the feedback received."
-  expected_output: "Finalized code."
+  expected_output: "Python file with the final version of the code. Output only python code. No markdown text."
   agent: software_engineer
 

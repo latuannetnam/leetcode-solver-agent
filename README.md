@@ -1,54 +1,102 @@
-# Leetcodesolver Crew
+# LeetCodeSolver Crew
 
-Welcome to the Leetcodesolver Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Welcome to the **LeetCodeSolver** project, powered by [crewAI](https://crewai.com)! 🚀  
+This innovative agent-based system is designed to help you solve LeetCode problems effortlessly, from easy to hard. A team of AI agents collaborates to analyze problems, design algorithms, write and test code, and optimize performance.  
 
-## Installation
+### How the Crew Works
+![LeetCode Crew Workflow](Leetcode_Agent.png)
 
-Ensure you have Python >=3.10 <3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
 
-First, if you haven't already, install uv:
+The LeetCodeSolver Crew operates in a hierarchical structure to efficiently solve LeetCode problems. Here's a breakdown of the workflow:
 
+1. **Manager**: The manager receives the LeetCode problem and delegates tasks to the appropriate team members.
+2. **Software Architect**: Analyzes the problem and designs the algorithm.
+3. **Software Engineer**: Writes the Python code based on the algorithm.
+4. **Tester**: Writes test cases to ensure the code works correctly.
+5. **QA**: Reviews the code and test cases, providing reports and suggestions for improvements.
+
+Each team member focuses on their specialized role, ensuring a streamlined and efficient problem-solving process.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have **Python >=3.10 <3.13** installed. This project uses [UV](https://docs.astral.sh/uv/) for seamless dependency management.
+
+### Installation Steps
+
+1. **Install Docker**
+- Docker is necessary to execute Python code using the CodeInterpreterTool.
+
+2. **Install UV**    
+    If you haven't already, install UV by running:  
+    ```bash
+    pip install uv
+    ```
+
+3. **Set Up the Project**  
+    Navigate to your project directory and install dependencies:  
+    ```bash
+    uv install
+    ```
+
+    *(Optional)* Lock dependencies and install them using:  
+    ```bash
+    crewai install
+    ```
+
+---
+
+## ⚙️ Configuration
+
+1. **Environment Setup**  
+    - Copy `.env-template` to `.env`.  
+    - Configure the `LLM_PROVIDER` and `MODEL` variables by commenting/uncommenting the options.  
+    - Add your API key for the chosen LLM provider (e.g., `OPENAI_API_KEY` for OpenAI).
+
+2. **Prepare LeetCode Problem Files**  
+    - Visit [LeetCode](https://leetcode.com/) and copy the problem description into a markdown file.  
+    - Save the markdown file in the `data` folder.  
+    - Update the `.env` file with the path to your problem file:  
+      ```env
+      LEETCODE_FILE="data/your_leetcode_file.md"
+      ```
+
+---
+
+## 🔍 Monitoring Progress with Phoenix
+
+1. Open a new terminal window and start Phoenix:  
+    ```bash
+    phoenix serve
+    ```
+
+2. Access the Phoenix dashboard at: [http://localhost:6006](http://localhost:6006)
+
+---
+
+## 🏃 Running the Project
+
+To start solving problems with your AI crew, run the following command from the project root:  
 ```bash
-pip install uv
+crewai run
 ```
 
-Next, navigate to your project directory and install the dependencies:
+- This will initialize the LeetCodeSolver Crew, assign tasks, and begin execution based on your configuration.
+- The final code will be stored in result folder with the same name as leetcode file.
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-### Customizing
+---
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
 
-- Modify `src/leetcodesolver/config/agents.yaml` to define your agents
-- Modify `src/leetcodesolver/config/tasks.yaml` to define your tasks
-- Modify `src/leetcodesolver/crew.py` to add your own logic, tools and specific args
-- Modify `src/leetcodesolver/main.py` to add custom inputs for your agents and tasks
 
-## Running the Project
+## 🤖 Meet Your Crew
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+The **LeetCodeSolver Crew** consists of multiple specialized AI agents, each with unique roles and tools. These agents work together to tackle tasks defined in:  
+- `config/tasks.yaml`: Task definitions and workflows.  
+- `config/agents.yaml`: Agent capabilities and configurations.
 
-```bash
-$ crewai run
-```
+---
 
-This command initializes the LeetCodeSolver Crew, assembling the agents and assigning them tasks as defined in your configuration.
-
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
-
-## Understanding Your Crew
-
-The LeetCodeSolver Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
-
-## Support
-
-For support, questions, or feedback regarding the Leetcodesolver Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
+Unleash the power of AI collaboration and solve LeetCode problems like never before! 🎉
